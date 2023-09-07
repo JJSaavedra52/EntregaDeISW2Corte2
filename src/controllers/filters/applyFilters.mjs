@@ -11,11 +11,16 @@ const PayloadValidation = Joi.object({
 
 const applyFilters = async (payload) => {
     try {
-        await PayloadValidation.validateAsync(payload)
+        await PayloadValidation.validateAsync(payload);
     } catch (error) {
         throw Boom.badData(error.message, { error });
     }
-    return "hola";
+    const newProcess = new Process();
+    newProcess.filters = payload.filters;
+
+    await newProcess.save();
+
+    return newProcess;
 }
 
 export default applyFilters;
