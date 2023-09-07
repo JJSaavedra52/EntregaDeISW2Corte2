@@ -1,14 +1,26 @@
 import Express from "express";
 import bodyParser from "body-parser";
 import { startConnection } from "./src/mongo/index.mjs";
-import cosa from "./src/handlers/filters/index.mjs"
+import filtro from "./src/handlers/filters/index.mjs"
+import Boom from "@hapi/boom";
 
 const app = Express();
 app.use(bodyParser.json())
 
 const PORT = 3000;
 
-app.use("/filter", cosa);
+app.use("/image", filtro);
+
+app.use((error, req, res, next) => {
+    if (error) {
+        let err = Boom.isBoom(error) ? error : Boom.internal(error);
+        const statusCode = err.output.statusCode;
+        const payload = err.output.payload;
+        return res.status(statusCode).json(payload);
+    }
+
+    return next;
+})
 
 app.get("/", (req, res) => {
     res.send("Hola")

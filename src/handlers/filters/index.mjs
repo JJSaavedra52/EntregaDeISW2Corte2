@@ -7,10 +7,6 @@ router.get("/", (req, res) => {
     res.send("ok images GET")
 })
 
-router.post("/", (req, res) => {
-    res.send("ok images POST")
-})
-
-router.post("/apply", applyFiltersHandler);
+router.post("/", applyFiltersHandler);
 
 export default router;
