@@ -15,6 +15,7 @@ const applyFilters = async (payload) => {
     } catch (error) {
         throw Boom.badData(error.message, { error });
     }
+
     const newProcess = new Process();
     newProcess.filters = payload.filters;
 

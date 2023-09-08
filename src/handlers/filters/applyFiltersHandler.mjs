@@ -7,8 +7,7 @@ const applyFiltersHandler = async (req, res, next) => {
     try {
         const body = req.body;
         const response = await applyFilters(body);
-        return res.status(HttpStatusCodes.Ok).json(response);
-        return res.send(response);
+        return res.status(HttpStatusCodes.OK).json(response);
     } catch (error) {
         const err = Boom.isBoom(error) ? error : Boom.internal(error);
         next(err);
