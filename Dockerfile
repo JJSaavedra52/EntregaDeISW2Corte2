@@ -6,6 +6,7 @@ COPY index.mjs .
 COPY package.json .
 COPY package-lock.json .
 COPY /src ./src/
+COPY /uploads ./uploads/
 
 ENV PORT 5001
 EXPOSE 5001

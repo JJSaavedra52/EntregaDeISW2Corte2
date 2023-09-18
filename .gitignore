@@ -141,4 +141,9 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
+# Imágenes
+uploads/*.jpg
+uploads/*.png
+
+
 # End of https://www.toptal.com/developers/gitignore/api/node
