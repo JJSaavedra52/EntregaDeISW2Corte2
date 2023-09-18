@@ -25,28 +25,34 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage
-}).single('files');
+}).array('files', 5);
 //--------------END Multer config-----------------------------
 
 //------------New Part that allows images uploads--------------
 //------------------Image upload-------------------------------
 app.post('/upload', (req, res) => {
-    upload(req, res, (err) => {
+    upload(req, res, async (err) => {
         if (err) {
             console.log(err);
         } else {
-            const newProcess = new ProcessModel({
-                files: {
-                    data: req.file.filename,
-                    contentType: 'image/jpeg'
-                },
-                filters: req.body.filters,
-            })
-            newProcess.save()
-                .then(() => res.send("Se subio exitosamente"))
-                .catch(err => console.log(err))
+            const files = req.files; // Array de archivos
+            const filters = req.body.filters;
+
+            for (const file of files) {
+                const newProcess = new ProcessModel({
+                    files: {
+                        data: file.filename,
+                        contentType: file.mimetype
+                    },
+                    filters: filters,
+                });
+
+                await newProcess.save();
+            }
+
+            res.send("Se subieron exitosamente " + files.length + " imágenes.");
         }
-    })
+    });
 });
 //--------------------END of image upload--------------------------
 
