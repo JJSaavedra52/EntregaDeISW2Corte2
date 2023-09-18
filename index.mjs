@@ -5,14 +5,14 @@ import filtro from "./src/handlers/filters/index.mjs"
 import Boom from "@hapi/boom";
 import { PORT } from "./src/commons/env.mjs";
 import multer from "multer";
-import applyFiltersHandler from "./src/handlers/filters/applyFiltersHandler.mjs";
+// import applyFiltersHandler from "./src/handlers/filters/applyFiltersHandler.mjs";
 import path from "path"
 import ProcessModel from "./src/models/Process.mjs";
 
 const app = Express();
 app.use(bodyParser.json())
 
-// const PORT = 3000;
+//--------------Multer config----------------------
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads'); // Carpeta donde se guardarán las imágenes
@@ -26,15 +26,16 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage
 }).single('files');
+//--------------END Multer config-----------------------------
 
-app.use("/image", filtro);
-
+//------------New Part that allows images uploads--------------
+//------------------Image upload-------------------------------
 app.post('/upload', (req, res) => {
     upload(req, res, (err) => {
-        if(err){
+        if (err) {
             console.log(err);
-        }else{
-            const newProcess = new ProcessModel ({
+        } else {
+            const newProcess = new ProcessModel({
                 files: {
                     data: req.file.filename,
                     contentType: 'image/jpeg'
@@ -42,11 +43,14 @@ app.post('/upload', (req, res) => {
                 filters: req.body.filters,
             })
             newProcess.save()
-            .then(() => res.send("Se subio exitosamente"))
-            .catch(err => console.log(err))
+                .then(() => res.send("Se subio exitosamente"))
+                .catch(err => console.log(err))
         }
     })
 });
+//--------------------END of image upload--------------------------
+
+app.use("/image", filtro);
 
 app.use((error, req, res, next) => {
     if (error) {
