@@ -24,4 +24,5 @@ const applyFilters = async (payload) => {
     return newProcess;
 }
 
-export default applyFilters;
+// export default applyFilters;
+export { PayloadValidation, applyFilters };

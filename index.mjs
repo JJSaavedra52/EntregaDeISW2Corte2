@@ -8,53 +8,56 @@ import multer from "multer";
 // import applyFiltersHandler from "./src/handlers/filters/applyFiltersHandler.mjs";
 import path from "path"
 import ProcessModel from "./src/models/Process.mjs";
+import uploadFiles from "./src/controllers/files/uploadFiles.mjs";
 
 const app = Express();
 app.use(bodyParser.json())
 
 //--------------Multer config----------------------
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads'); // Carpeta donde se guardarán las imágenes
-    },
-    filename: function (req, file, cb) {
-        console.log(file);
-        cb(null, Date.now() + path.extname(file.originalname));
-    },
-});
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads'); // Carpeta donde se guardarán las imágenes
+//     },
+//     filename: function (req, file, cb) {
+//         console.log(file);
+//         cb(null, Date.now() + path.extname(file.originalname));
+//     },
+// });
 
-const upload = multer({
-    storage: storage
-}).array('files', 5);
-//--------------END Multer config-----------------------------
+// const upload = multer({
+//     storage: storage
+// }).array('files', 5);
+// //--------------END Multer config-----------------------------
 
-//------------New Part that allows images uploads--------------
-//------------------Image upload-------------------------------
-app.post('/upload', (req, res) => {
-    upload(req, res, async (err) => {
-        if (err) {
-            console.log(err);
-        } else {
-            const files = req.files; // Array de archivos
-            const filters = req.body.filters;
+// //------------New Part that allows images uploads--------------
+// //------------------Image upload-------------------------------
+// app.post('/upload', (req, res) => {
+//     upload(req, res, async (err) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             const files = req.files; // Array de archivos
+//             const filters = req.body.filters;
 
-            for (const file of files) {
-                const newProcess = new ProcessModel({
-                    files: {
-                        data: file.filename,
-                        contentType: file.mimetype
-                    },
-                    filters: filters,
-                });
+//             for (const file of files) {
+//                 const newProcess = new ProcessModel({
+//                     files: {
+//                         data: file.filename,
+//                         contentType: file.mimetype
+//                     },
+//                     filters: filters,
+//                 });
 
-                await newProcess.save();
-            }
+//                 await newProcess.save();
+//             }
 
-            res.send("Se subieron exitosamente " + files.length + " imágenes.");
-        }
-    });
-});
+//             res.send("Se subieron exitosamente " + files.length + " imágenes.");
+//         }
+//     });
+// });
 //--------------------END of image upload--------------------------
+app.post("/upload", uploadFiles);
+
 
 app.use("/image", filtro);
 
