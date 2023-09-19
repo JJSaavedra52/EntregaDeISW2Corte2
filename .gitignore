@@ -144,6 +144,7 @@ dist
 # Imágenes
 uploads/*.jpg
 uploads/*.png
+uploads/*.gif
 
 
 # End of https://www.toptal.com/developers/gitignore/api/node
