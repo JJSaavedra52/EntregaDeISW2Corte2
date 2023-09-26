@@ -4,8 +4,9 @@ import Process from '../../models/Process.mjs';
 import { BLUR_FILTER, GREYSCALE_FILTER, NEGATIVE_FILTER } from '../../commons/constants.mjs';
 
 const PayloadValidation = Joi.object({
-  filters: Joi.array().min(1).items(Joi.string()
-    .valid(NEGATIVE_FILTER, GREYSCALE_FILTER, BLUR_FILTER)),
+  // eslint-disable-next-line
+  filters: Joi.array().min(1).items(Joi.string().valid(NEGATIVE_FILTER, GREYSCALE_FILTER, BLUR_FILTER)),
+  images: Joi.array().required(),
 });
 
 const applyFilters = async (payload) => {

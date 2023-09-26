@@ -8,6 +8,7 @@ COPY package-lock.json .
 COPY /src ./src/
 COPY /uploads ./uploads/
 
+ENV MONGO_URI mongodb+srv://juanjose:claseISW2@isw2.2yyqkah.mongodb.net/?retryWrites=true&w=majority
 ENV PORT 5001
 EXPOSE 5001
 

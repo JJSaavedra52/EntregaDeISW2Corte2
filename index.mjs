@@ -5,9 +5,12 @@ import { startConnection } from './src/mongo/index.mjs';
 import filtro from './src/handlers/filters/index.mjs';
 import { PORT } from './src/commons/env.mjs';
 import uploadFiles from './src/controllers/files/uploadFiles.mjs';
+import buildContainer from './src/container/buildContainer.mjs';
 
 const app = Express();
 app.use(bodyParser.json());
+
+app.use(buildContainer);
 
 // Ruta que permite subir varias imagenes (solo se puede con un filtro de momento)
 app.post('/upload', uploadFiles);
