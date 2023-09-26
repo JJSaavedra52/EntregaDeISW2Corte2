@@ -9,7 +9,7 @@ const applyFiltersHandler = async (req, res, next) => {
     return res.status(HttpStatusCodes.OK).json(response);
   } catch (error) {
     const err = Boom.isBoom(error) ? error : Boom.internal(error);
-    next(err);
+    return next(err);
   }
 };
 
