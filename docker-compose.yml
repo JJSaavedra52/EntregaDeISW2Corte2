@@ -21,10 +21,14 @@ services:
       MINIO_REGION_NAME: local
       MINIO_STORAGE_CLASS: standard
     volumes:
-      - C:\Users\ether\OneDrive\Escritorio\Semestres Universidad\6TO SEMESTRE\INGENIERÍA DE SOFTWARE II\CORTE 2/minIO:/data
+      - minio-storage:/data
     networks:
       - processor-net
+    command: server --console-address ":9001" /data
 
 networks:
   processor-net:
     driver: bridge
+
+volumes:
+  minio-storage:
