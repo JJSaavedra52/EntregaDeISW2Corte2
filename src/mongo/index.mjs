@@ -6,4 +6,7 @@ export const startConnection = async () => {
   await mongoose.connect(url);
 };
 
+export const closeConnection = async () => {
+  mongoose.connection.close();
+};
 export default startConnection;

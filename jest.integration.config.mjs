@@ -3,9 +3,8 @@ export default {
     'mjs',
     'js',
   ],
-  testMatch: ['**/?(*.)+(spec|test).(m)js'],
+  testMatch: ['**/?(*.)integration.+(spec|test).(m)js'],
   verbose: true,
-  testPathIgnorePatterns: ['integration'],
   collectCoverage: true,
   coverageThreshold: {
     global: {
